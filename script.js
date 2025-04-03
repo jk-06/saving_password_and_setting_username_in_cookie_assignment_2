@@ -91,4 +91,30 @@ pinInput.addEventListener('input', (e) => {
 // attach the test function to the button
 document.getElementById('check').addEventListener('click', test);
 
+async function bruteForceSHA256() {
+  const targetHash = document.getElementById('sha256-hash').innerText; 
+  if (!targetHash) {
+      console.log("No hash found. Make sure the page is loaded.");
+      return;
+  }
+
+  console.log("🔍 Brute-force started...");
+
+  for (let num = 100; num <= 999; num++) {
+      let hash = await sha256(num.toString()); 
+      if (hash === targetHash) {
+          console.log(`Found the number! It's: ${num}`);
+          document.getElementById('result').innerHTML = `The original number is: <b>${num}</b>`;
+          document.getElementById('result').classList.remove('hidden');
+          return;
+      }
+  }
+
+  console.log("❌ No match found (which shouldn't happen)");
+}
+
+
 main();
+
+document.getElementById('brute-force').addEventListener('click', bruteForceSHA256);
+
